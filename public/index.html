@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+        <style>
+	        body {
+	            margin: 0;
+	            padding: 0;
+	            font-family: sans-serif;
+	        }
+
+	        .progress-bar {
+            transition: none !important; /* Disable Bootstrap's transition */
+        	}
+        	.left-border {
+            border-left: 2px solid rgb(36,36,36);
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+        }
+        	#fireworks-canvas {
+            position: absolute;
+            opacity: 0.4;
+            pointer-events: none; /* Allow clicks to pass through */
+        	}
+        </style>
+	</head>
+	<body style = "display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; flex-direction: column;" class = 'bg-dark ' data-bs-theme="dark">
+
+
+ 		<div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: absolute;
+              background-color: rgba(0,0,0,0.8);
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              z-index: 100;
+            "
+            id = "enterancePage"
+        >
+            <form id="usernameForm">
+              <div style = "display: flex; flex-direction: column; margin-bottom: 15px; justify-content: center; align-items: center; gap: 15px">
+                <span id = 'username-validation' style = "display: none; color: rgb(239 68 68);">* Username must contain at least 3 and at most 8 character.</span>
+                <input
+                  id="usernameInput"
+                  type="text"
+                  placeholder="Username"
+                  style="
+                    padding: 12px;
+                    border-radius: 20px;
+                    border: none;
+                    background: #475569;
+                    color: #cbd5e1;
+                    width: 200px;
+                  "
+                />
+              </div>
+
+              <div style="text-align: center; margin-top: 8px">
+                <button
+                  style="
+                    padding: 8px 20px;
+                    border-radius: 100px;
+                    border: none;
+                    background-image: linear-gradient(
+                      to right,
+                      rgb(6, 182, 212),
+                      rgb(59, 130, 246)
+                    );
+                    color: white;
+                    cursor: pointer;
+                  "
+                >
+                  Start!
+                </button>
+              </div>
+            </form>
+        </div>
+
+
+
+
+
+
+
+		<div style = "display: flex; flex-direction: row;">
+			<div style = "background-color: rgb(24,24,24); width: 200px; height: 576px; border-bottom-left-radius: 5px; border-top-left-radius: 5px;">
+				
+				<div style = "	color: rgb(241 245 249); margin-top: 20px; margin-left: 15px ; font-family: sans-serif; font-weight: 600; font-size: 1.125rem; ">
+					LEADERBOARD
+				</div>
+
+				<div id = "leaderboard" style = "width: 100%; margin-top: 25px; display: flex; flex-direction: column; gap:8px">
+					
+<!-- 					<div style = "width: 80%; height: 40px; background-color: rgb(30,30,30); margin:0px ; padding: 0px; margin-left:15px; border-radius: 4px; display: flex; align-items: center; justify-content: space-between;">
+							<span style = "margin-left: 20px">Ata</span>
+							<div style = 'margin-right: 10px; color: rgb(254 240 138);'>
+								20pts
+							</div>
+
+					</div> -->
+
+				</div>
+
+
+
+			</div>
+			<div style = "background-color: rgb(30,30,30); width: 600px; height: 576px; border-bottom-right-radius: 5px; border-top-right-radius: 5px; display: flex; flex-direction: column;">
+				
+				<div style = "display: flex; flex-direction: column;">
+					
+					<div style = "margin-top: 10px; display: flex; justify-content: space-between; padding-right: 20px; width: 100%;">
+							<div></div>
+							<div style = "display: flex; align-content: center; align-items: center;">			
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-volume-down-fill" viewBox="0 0 16 16" style = "color: rgb(11,110,253);">
+								  <path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12zm3.025 4a4.5 4.5 0 0 1-1.318 3.182L10 10.475A3.5 3.5 0 0 0 11.025 8 3.5 3.5 0 0 0 10 5.525l.707-.707A4.5 4.5 0 0 1 12.025 8"/>
+								</svg>
+								<input type="range" class="form-range" id="customRange1" style = "width: 80px;" >
+
+							</div>
+					</div>
+
+					<div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="	25" aria-valuemin="0" aria-valuemax="100" style="height: 4px; border-radius: 0px; margin-top: 5px">
+					  <div id = 'progress-bar' class="progress-bar" style="width: 0%"></div>
+					</div>
+
+				</div>
+
+
+				<div id = 'waiting' style = 'display:none ; color:white ; width: 100%; height: 100%; align-items: center; justify-content: center; flex-direction: column;'>
+					<div class="spinner-border" role="status" style = "margin-bottom: 20px;">
+					  <span class="visually-hidden">Loading...</span>
+					</div>
+
+					<div style = "display: flex; flex-direction: column; justify-content: center; align-items: center;">
+							<span id = 'waitingInfo1' style = "font-weight: 500 ;font-size: 1.125rem;">Waiting for players...</span>
+							<span id = 'waitingInfo2' style = "font-weight: 500; color: rgb(203 213 225)">(at least 2 player needed to start the round)</span>
+					</div>
+
+
+				</div>
+
+
+				<div id = 'ongoing' style = 'display:none ; color:white ; width: 100%; height: 100%; align-items: center; justify-content: center; flex-direction: column;'>
+
+
+
+					<div style="display: flex; flex-direction: column; margin-bottom: 2.5rem;">
+					  <div style="font-weight: bold; font-size: 1.25rem; color: #38bdf8; font-family: monospace; display: flex;">
+					    Guess
+					    <div id = "og-roundCounter" style="margin-left: 3rem; color: #fcd34d;"></div>
+					  </div>
+					  <div style="font-weight: bold; font-size: 1.875rem; color: #38bdf8; font-family: monospace;">
+					    the Song
+					  </div>
+					</div>
+
+
+					<div class = "select-buttons" style = 'margin-top: 20px; display: grid;
+    			grid-template-columns: repeat(2, 1fr);
+    			grid-template-rows: repeat(2, 1fr);
+    			gap: 10px; /* Adjust the gap size as needed */'>
+						<input type="radio" class="btn-check" name="options-base" id="option5" autocomplete="off">
+						<label class="btn" for="option5" style = "color: #d1d5db; background-color: rgb(24,24	,24)" choice = 'A'></label>
+
+						<input type="radio" class="btn-check" name="options-base" id="option6" autocomplete="off">
+						<label class="btn" for="option6" style = "color: #d1d5db; background-color: rgb(24,24	,24)" choice = 'B'></label>
+
+						<input type="radio" class="btn-check" name="options-base" id="option7" autocomplete="off">
+						<label class="btn" for="option7" style = "color: #d1d5db; background-color: rgb(24,24	,24);" choice = 'C'></label>
+
+						<input type="radio" class="btn-check" name="options-base" id="option8" autocomplete="off">
+						<label class="btn" for="option8" style = "color: #d1d5db; background-color: rgb(24,24	,24)" choice = 'D'></label>
+					</div>
+
+
+				</div>
+
+
+
+				<div id = 'finished' style = 'display:none ; position:relative; z-index: 50; color:white ; width: 100%; height: 100%; justify-content: center; gap: 40px;' class = "fireworks">
+
+					<div style = "margin-top: 180px; display:flex ; flex-direction: column; align-items: center; z-index: 20;">
+						<img src = "https://storage.googleapis.com/musics_for_guess_the_song/final-thropies/badges-Photoroom%20copy.png" style = "width: 100px; height: 150px; object-fit: contain;">
+						<span id = "silver-winner" style = "font-size: 1.125rem;line-height: 1.75rem;font-weight: 600; margin-top:10px; color: rgb(209 213 219);"></span>
+
+
+					</div>
+					<div style = "display:flex ; flex-direction: column; align-items: center; margin-top: 80px; z-index: 20;">
+						<img src = "https://storage.googleapis.com/musics_for_guess_the_song/final-thropies/badges-Photoroom%20copy%202.png" style = "width: 100px; height: 150px; object-fit: contain;">
+						<span id = "gold-winner"  style = "font-size: 1.125rem;line-height: 1.75rem;font-weight: 600; margin-top:10px; color: rgb(254 240 138);"></span>
+
+					</div>
+					<div style = "margin-top: 180px; display:flex ; flex-direction: column; align-items: center; z-index: 20;">
+						<img src = "https://storage.googleapis.com/musics_for_guess_the_song/final-thropies/badges-Photoroom.png" style = "width: 100px; height: 150px; object-fit: contain;">
+
+						<span id = "bronze-winner"  style = "font-size: 1.125rem;line-height: 1.75rem;font-weight: 600; margin-top:10px; color: rgb(251 146 60);"></span>
+
+					</div>
+
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+		<!-- jsDelivr  -->
+		<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js" integrity="sha512-xi/RZRIF/S0hJ+yJJYuZ5yk6/8pCiRlEXZzoguSMl+vk2i3m6UjUO/WcZ11blRL/O+rnj94JRGwt/CHbc9+6EA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+		<script type="text/javascript" src="./index.js"></script>
+	</body>
+</html>
