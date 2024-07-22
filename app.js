@@ -73,13 +73,17 @@ let fetching = false
 setInterval(() => {
 	io.emit('updatePlayers',backEndPlayers)
 
-	const roundInfo = {state,timeleft}
+	const roundInfo = {}
 
 	if (state == -1)
 	{
 		 // transition to preparing stage
 		if (playerCount >= 2)
 		{
+			for (const id in backEndPlayers)
+			{
+				backEndPlayers[id].score = 0
+			}
 			state = 0
 			fetching = false
 		}
@@ -107,12 +111,8 @@ setInterval(() => {
 	}
 	else if(state == 50) // on going round
 	{
-		if (round < MAX_ROUND)
-		{
 			if(timeleft < 0)
 			{
-
-
 				for (const id in backEndPlayers) // increasing score if player's choice is correct
 				{
 					const backEndPlayer = backEndPlayers[id]
@@ -124,6 +124,11 @@ setInterval(() => {
 
 				round++
 				timeleft = DURATION
+				if (round >= MAX_ROUND)
+				{
+					state = 100
+					timeleft = 15
+				}
 				randomNumbers = generateRandomNumbers(4,4)
 			}
 			else
@@ -139,12 +144,6 @@ setInterval(() => {
 					D: options[randomNumbers[3]-1],
 					img: audios[round].mlogo}
 			}
-		}
-		else
-		{
-			state = 100
-			timeleft = 15
-		}
 	}
 	else // state 100 - game is finished. 
 	{
@@ -154,8 +153,8 @@ setInterval(() => {
 		}
 	}
 
-
-	io.emit('updateRound',roundInfo)
+	// console.log(state + " : " + timeleft + "\n")
+	io.emit('updateRound',{state,timeleft,audio: roundInfo.audio})
 
 
 },20)

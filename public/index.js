@@ -92,6 +92,8 @@ let state = -1
 socket.on('updateRound',(stateInfo) => {
 	state = stateInfo.state
 	const timeleft = stateInfo.timeleft
+	// console.log("state: " + state)
+	// console.log("timeleft: " + timeleft + "\n")
 
 	// console.log(state)
 
@@ -99,7 +101,6 @@ socket.on('updateRound',(stateInfo) => {
 
 	if (state == -1) // waiting for player
 	{
-		firework_on = false
 		mainDisplay = document.querySelector('#waiting')
 		const progressBar = document.querySelector('#progress-bar')
 		progressBar.style.width = '100%'
@@ -141,14 +142,15 @@ socket.on('updateRound',(stateInfo) => {
 				progressBar.style.backgroundColor = 'rgb(220,54,69)';
 			}
 
-			if (timeleft > 0) // 12-4
+			if (timeleft > 0 ) // 12-4
 			{
 			    gsap.to(progressBar.style,{
-		            width : `${100-(100/DURATION*(timeleft-1))}%`,
+		            width : `${100-(100/15*(timeleft-1))}%`,
 		            duration : 1,
 		            // console.log(`${100-(100/15*(timeleft-1))}%`)
 		            ease: 'linear'
 		        })
+		        // console.log(`${100-(100/15*(timeleft-1))}%`)
 			}
 
 		}
@@ -206,7 +208,6 @@ socket.on('updateRound',(stateInfo) => {
 
 		if (!firework_on)
 		{
-
 			const container = document.getElementById('finished');
 			if (container)
 			{
@@ -222,6 +223,7 @@ socket.on('updateRound',(stateInfo) => {
 				setTimeout(() => {
 					fireworks.stop()
 					container.removeChild(canvas)
+					firework_on = false
 				},stateInfo.timeleft*1000)
 			}
 		}
@@ -231,7 +233,7 @@ socket.on('updateRound',(stateInfo) => {
 		{
 			// lastTimeUpdate = stateInfo.timeleft
 			// mainDisplay.innerHTML = `<span> finished..      timeleft:${stateInfo.timeleft} </span>`
-
+			lastTimeUpdate = stateInfo.timeleft
 			const progressBar = document.querySelector('#progress-bar')
 			progressBar.style.backgroundColor = 'rgb(11,110,253)';
 			// console.log(timeleft)
@@ -367,4 +369,16 @@ function unselectRadioButton() {
     }
 }
 
+document.addEventListener('DOMContentLoaded',() => {
+	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+	document.querySelector('#github').addEventListener('click',() => {
+		window.open('https://github.com/atayilmaz243/Guess-the-song-Multiplayer', '_blank');
+	})
+
+	document.querySelector('#portfolio').addEventListener('click',() => {
+		window.open('https://atayilmaz243.github.io/portfolio/', '_blank');
+	})
+})
 
