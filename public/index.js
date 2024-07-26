@@ -9,6 +9,9 @@ const frontEndPlayer = {}
 let round = -1
 let firework_on = false
 
+Howler.volume(0.5)
+
+
 socket.on('updatePlayers',(backEndPlayers) => {
 
 	for (const id in backEndPlayers)
