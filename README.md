@@ -1,13 +1,12 @@
 <a href="http://guessthesong.ata243y.com/">Demo for the project</a>
 
-<h2>About the game</h2>
-The game needs at least 2 player to start. After 2 player join the game starts. Game consists of 6 round each round playing different song and player take a guess about the name of the song. At the end of the 6 round the players who has most points will be displayed as winner and game repeats itself with different songs in the database.
+<h2>About the Game</h2>
+The game requires at least 2 players to start. Once 2 players have joined, the game begins. The game consists of 6 rounds, each featuring a different song, and players must guess the name of the song. At the end of the 6 rounds, the player with the most points will be displayed as the winner, and the game will restart with different songs from the database.
 
+<h2>How I Created the App / Technologies Used</h2>
 
-<h2>How I created the app / Technologies used</h2>
+The app was created using HTML, CSS, and vanilla JavaScript on the client side. Node.js was used for the backend server.
 
-The app is created based on html,css and vanilla javascript on client side. NodeJS used for backend server.
+The connection between the client and the backend server is established via WebSocket using the Socket.io library.
 
-The connection between client and backend server established via websocket using library socket.io
-
-The music data seen by clients on each round is fetched from firestore database on backend and used howler js audio library on client side for playing the sound.
+The music data seen by clients in each round is fetched from the Firestore database on the backend, and the Howler.js audio library is used on the client side for playing the sound.
